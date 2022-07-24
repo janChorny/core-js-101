@@ -303,8 +303,16 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const sum = num
+    .toString()
+    .split('')
+    .map(Number)
+    .reduce((a, b) => a + b, 0);
+  if (sum <= 9) {
+    return sum;
+  }
+  return getDigitalRoot(sum);
 }
 
 
@@ -329,8 +337,29 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  let char;
+  let last;
+  const stack = [];
+
+  for (let i = 0; i < str.length; i += 1) {
+    char = str[i];
+    if (char === '{' || char === '(' || char === '[' || char === '<') {
+      stack.push(char);
+      last = char;
+    } else if (char === '}' || char === ')' || char === ']' || char === '>') {
+      if (last) {
+        if ((char === '}' && last === '{') || (char === ')' && last === '(')
+          || (char === ']' && last === '[') || (char === '>' && last === '<')) {
+          stack.pop();
+          last = stack.length > 0 ? stack[stack.length - 1] : undefined;
+        }
+      } else {
+        return false;
+      }
+    }
+  }
+  return stack.length === 0;
 }
 
 
@@ -354,8 +383,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
